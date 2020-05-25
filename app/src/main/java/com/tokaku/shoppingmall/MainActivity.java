@@ -23,8 +23,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initView();
         initFragment();
+        initView();
     }
 
     private void initView() {
@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new MyFragment());
     }
 
-    public void changeFragment(View view) {
+    public void clickFragment(View view) {
         switch (view.getId()) {
             case R.id.rb_home:
                 position = 0;
@@ -58,6 +58,10 @@ public class MainActivity extends FragmentActivity {
         }
 
         BaseFragment to = fragments.get(position);
+        switchFragment(to);
+    }
+
+    private void switchFragment(BaseFragment to) {
         if (mContext != to) {
             mContext = to;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -72,8 +76,6 @@ public class MainActivity extends FragmentActivity {
                 }
                 fragmentTransaction.show(to).commit();
             }
-
-
         }
     }
 }
