@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!--        <RadioGroup-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content">-->
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/title_home_selector"
+            android:gravity="center"
+            android:text="@string/title_home" />
+
+        <RadioButton
+            android:id="@+id/rb_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/title_message_selector"
+            android:gravity="center"
+            android:text="@string/title_message" />
+
+        <RadioButton
+            android:id="@+id/rb_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/title_cart_selector"
+            android:gravity="center"
+            android:text="@string/title_cart" />
+
+        <RadioButton
+            android:id="@+id/rb_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/title_my_selector"
+            android:gravity="center"
+            android:text="@string/title_my" />
+        <!--        </RadioGroup>-->
+    </LinearLayout>
+</LinearLayout>

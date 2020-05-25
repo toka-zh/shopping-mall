@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ShoppingMall</string>
+    <string name="title_home">首页</string>
+    <string name="title_message">消息</string>
+    <string name="title_cart">购物车</string>
+    <string name="title_my">我的</string>
+</resources>
