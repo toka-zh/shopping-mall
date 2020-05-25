@@ -9,23 +9,19 @@
 
 
     <FrameLayout
+        android:id="@+id/frame_Fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </FrameLayout>
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/rg_title"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-
-        <!--        <RadioGroup-->
-        <!--            android:orientation="horizontal"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content">-->
-
         <RadioButton
             android:id="@+id/rb_home"
             android:layout_width="wrap_content"
@@ -34,7 +30,8 @@
             android:button="@android:color/transparent"
             android:drawableTop="@drawable/title_home_selector"
             android:gravity="center"
-            android:text="@string/title_home" />
+            android:text="@string/title_home"
+            android:onClick="changeFragment"/>
 
         <RadioButton
             android:id="@+id/rb_message"
@@ -44,7 +41,8 @@
             android:button="@android:color/transparent"
             android:drawableTop="@drawable/title_message_selector"
             android:gravity="center"
-            android:text="@string/title_message" />
+            android:text="@string/title_message"
+            android:onClick="changeFragment"/>
 
         <RadioButton
             android:id="@+id/rb_cart"
@@ -54,7 +52,8 @@
             android:button="@android:color/transparent"
             android:drawableTop="@drawable/title_cart_selector"
             android:gravity="center"
-            android:text="@string/title_cart" />
+            android:text="@string/title_cart"
+            android:onClick="changeFragment"/>
 
         <RadioButton
             android:id="@+id/rb_my"
@@ -64,7 +63,7 @@
             android:button="@android:color/transparent"
             android:drawableTop="@drawable/title_my_selector"
             android:gravity="center"
-            android:text="@string/title_my" />
-        <!--        </RadioGroup>-->
-    </LinearLayout>
+            android:text="@string/title_my"
+            android:onClick="changeFragment"/>
+    </RadioGroup>
 </LinearLayout>
