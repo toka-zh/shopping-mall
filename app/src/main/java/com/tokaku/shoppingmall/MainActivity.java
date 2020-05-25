@@ -67,16 +67,16 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void switchFragment(BaseFragment to) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (mContext != to) {
+            if (mContext != null) {
+                fragmentTransaction.hide(mContext);
+            }
             mContext = to;
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             if (!to.isAdded()) {
-//                if (mContext != null) {
-//                    fragmentTransaction.hide(mContext);
-//                }
                 fragmentTransaction.add(R.id.frame_Fragment, to).commit();
             }else {
-                fragmentTransaction.hide(mContext);
+//                fragmentTransaction.hide(mContext);
                 fragmentTransaction.show(to).commit();
             }
         }

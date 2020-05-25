@@ -11,8 +11,9 @@ public class CartFragment extends BaseFragment {
 
     @Override
     protected View initView() {
+        View view = View.inflate(mContext,R.layout.fragment_cart,null);
         Log.e(TAG, "initView: ");
-        return null;
+        return view;
     }
 
     @Override

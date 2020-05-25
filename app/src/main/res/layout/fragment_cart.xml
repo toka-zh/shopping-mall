@@ -7,11 +7,14 @@
 
     <include
         android:id="@+id/titleBar"
-        layout="@layout/title_home_bar"/>
+        layout="@layout/title_cart_bar_top"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_home"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp" />
 
+    <include
+        android:id="@+id/titleBar"
+        layout="@layout/title_cart_bar_buttom"/>
 </LinearLayout>
