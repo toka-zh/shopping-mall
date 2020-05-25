@@ -10,60 +10,80 @@
 
     <FrameLayout
         android:id="@+id/frame_Fragment"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:src="@drawable/barline" />
 
     <RadioGroup
         android:id="@+id/rg_title"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:layout_weight="1"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
+
         <RadioButton
             android:id="@+id/rb_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@android:color/transparent"
+            android:background="@android:color/transparent"
             android:drawableTop="@drawable/title_home_selector"
             android:gravity="center"
+            android:onClick="clickFragment"
             android:text="@string/title_home"
-            android:onClick="changeFragment"/>
+            android:textColor="@color/themeColor"
+            android:textSize="12sp" />
 
         <RadioButton
             android:id="@+id/rb_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="12sp"
+            android:textColor="@color/themeColor"
             android:button="@android:color/transparent"
+            android:background="@android:color/transparent"
             android:drawableTop="@drawable/title_message_selector"
             android:gravity="center"
-            android:text="@string/title_message"
-            android:onClick="changeFragment"/>
+            android:onClick="clickFragment"
+            android:text="@string/title_message" />
 
         <RadioButton
             android:id="@+id/rb_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="12sp"
+            android:textColor="@color/themeColor"
             android:button="@android:color/transparent"
+            android:background="@android:color/transparent"
             android:drawableTop="@drawable/title_cart_selector"
             android:gravity="center"
-            android:text="@string/title_cart"
-            android:onClick="changeFragment"/>
+            android:onClick="clickFragment"
+            android:text="@string/title_cart" />
 
         <RadioButton
             android:id="@+id/rb_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="12sp"
+            android:textColor="@color/themeColor"
             android:button="@android:color/transparent"
+            android:background="@android:color/transparent"
             android:drawableTop="@drawable/title_my_selector"
             android:gravity="center"
-            android:text="@string/title_my"
-            android:onClick="changeFragment"/>
+            android:onClick="clickFragment"
+            android:text="@string/title_my" />
     </RadioGroup>
 </LinearLayout>

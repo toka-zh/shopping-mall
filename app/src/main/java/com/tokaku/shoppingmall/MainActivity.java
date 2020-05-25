@@ -30,6 +30,7 @@ public class MainActivity extends FragmentActivity {
     private void initView() {
         RadioGroup radioGroup = findViewById(R.id.rg_title);
         radioGroup.check(R.id.rb_home);
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_Fragment, fragments.get(0)).commit();
     }
 
 
@@ -55,6 +56,10 @@ public class MainActivity extends FragmentActivity {
             case R.id.rb_my:
                 position = 3;
                 break;
+            default:
+                position = 0;
+                break;
+
         }
 
         BaseFragment to = fragments.get(position);
@@ -66,14 +71,12 @@ public class MainActivity extends FragmentActivity {
             mContext = to;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             if (!to.isAdded()) {
-                if (mContext != null) {
-                    fragmentTransaction.hide(mContext);
-                }
+//                if (mContext != null) {
+//                    fragmentTransaction.hide(mContext);
+//                }
                 fragmentTransaction.add(R.id.frame_Fragment, to).commit();
             }else {
-                if (mContext != null) {
-                    fragmentTransaction.hide(mContext);
-                }
+                fragmentTransaction.hide(mContext);
                 fragmentTransaction.show(to).commit();
             }
         }
