@@ -1,6 +1,5 @@
 package com.tokaku.shoppingmall;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
