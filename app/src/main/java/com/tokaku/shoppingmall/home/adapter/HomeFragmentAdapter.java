@@ -1,6 +1,7 @@
 package com.tokaku.shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.youth.banner.listener.OnLoadImageListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
 public class HomeFragmentAdapter extends RecyclerView.Adapter{
@@ -31,7 +33,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
     private static final int HOT = 5;
     private Context mContext;
     private ResultBeanData.ResultBean resultDate;
-    private LayoutInflater layoutInflater;
+    private final LayoutInflater layoutInflater;
 
     private int currentType = BANNER;
 
@@ -54,17 +56,18 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.e(TAG, "绑定适配器"+position);
         if (getItemViewType(position) == BANNER){
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
             bannerViewHolder.setData(resultDate.getBanner_info());
         }else if (getItemViewType(position) == CHANNEL){
-            ChannelViewHolder bannerViewHolder = (ChannelViewHolder) holder;
-            bannerViewHolder.setData(resultDate.getChannel_info());
+            ChannelViewHolder channelViewHolder = (ChannelViewHolder) holder;
+            channelViewHolder.setData(resultDate.getChannel_info());
         }
     }
 
     @Override
-    public long getItemId(int position) {
+    public int getItemViewType(int position) {
         switch (position){
             case BANNER:
                 currentType = BANNER;
@@ -90,7 +93,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 2;
     }
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {

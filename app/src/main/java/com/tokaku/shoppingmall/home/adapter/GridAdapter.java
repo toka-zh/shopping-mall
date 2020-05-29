@@ -28,7 +28,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return resultDate.size();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GridAdapter extends BaseAdapter {
             convertView = View.inflate(mContext, R.layout.item_home_channel,null);
             holder = new ViewHolder();
             holder.imageView = convertView.findViewById(R.id.imageView);
-            holder.textView = convertView.findViewById(R.id.imageView);
+            holder.textView = convertView.findViewById(R.id.textView);
             convertView.setTag(holder);
         }else {
              holder = (ViewHolder) convertView.getTag();
@@ -56,11 +56,10 @@ public class GridAdapter extends BaseAdapter {
 
         ResultBeanData.ResultBean.ChannelInfoBean channelInfoBean = resultDate.get(position);
         Glide.with(mContext).load(URL_IMG+channelInfoBean.getImage()).into(holder.imageView);
-        System.out.println(URL_IMG+channelInfoBean.getImage());
         holder.textView.setText(channelInfoBean.getChannel_name());
         return convertView;
     }
-    class ViewHolder{
+    static class ViewHolder{
         ImageView imageView;
         TextView textView;
     }
