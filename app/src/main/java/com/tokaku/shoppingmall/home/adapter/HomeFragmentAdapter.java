@@ -4,19 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnLoadImageListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragmentAdapter extends RecyclerView.Adapter {
+import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
+
+public class HomeFragmentAdapter extends RecyclerView.Adapter{
     private static final int BANNER = 0;
     private static final int CHANNEL = 1;
     private static final int PROMOTION = 2;
@@ -77,10 +82,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         return currentType;
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
@@ -93,7 +94,22 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
 
         public void setData(List<ResultBeanData.ResultBean.BannerInfoBean> banner_info) {
-            List<String> imagesUri = new ArrayList<>();
+            final List<String> imagesUri = new ArrayList<>();
+            for (int i = 0; i < banner_info.size(); i++) {
+                imagesUri.add(banner_info.get(i).getImage());
+            }
+            banner.setImages(imagesUri, new OnLoadImageListener() {
+                @Override
+                public void OnLoadImage(ImageView view, Object url) {
+                    Glide.with(mContext).load(URL_IMG+url).into(view);
+                }
+            });
         }
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return 1;
     }
 }

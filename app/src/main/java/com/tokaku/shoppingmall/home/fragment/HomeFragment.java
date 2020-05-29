@@ -31,7 +31,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected View initView() {
-        Log.e(TAG, "initView: ");
+        Log.e(TAG, "生成布局");
         View view = View.inflate(mContext, R.layout.fragment_home,null);
         rvHome = view.findViewById(R.id.recyclerview_home);
         search = view.findViewById(R.id.search);
@@ -76,7 +76,8 @@ public class HomeFragment extends BaseFragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.e(TAG, "读取数据成功: "+response);
+//                        Log.e(TAG, "读取数据成功: "+response);
+                        Log.e(TAG, "读取数据成功");
                         processData(response);
                     }
                 });
@@ -85,9 +86,10 @@ public class HomeFragment extends BaseFragment {
     private void processData(String json) {
         ResultBeanData resultBeanData = JSON.parseObject(json, ResultBeanData.class);
         resultDate = resultBeanData.getResult();
-        Log.e(TAG, "解析成功");
         if (resultDate != null) {
+            Log.e(TAG, "解析成功");
             adapter = new HomeFragmentAdapter(mContext, resultDate);
+            Log.e(TAG, "绑定适配器");
             rvHome.setAdapter(adapter);
             rvHome.setLayoutManager(new GridLayoutManager(mContext,1));
         }
