@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.zhy:okhttputils:2.6.2'
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
     implementation 'com.alibaba:fastjson:1.1.71.android'
+    implementation 'com.youth.banner:banner:2.0.10'
 }

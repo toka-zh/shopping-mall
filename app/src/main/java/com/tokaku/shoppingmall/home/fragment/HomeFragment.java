@@ -7,9 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.fastjson.JSON;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.base.BaseFragment;
+import com.tokaku.shoppingmall.home.adapter.HomeFragmentAdapter;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -21,12 +25,15 @@ public class HomeFragment extends BaseFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
     private TextView search;
     private ImageView scan;
-    private ResultBeanData.ResultBean result;
+    private ResultBeanData.ResultBean resultDate;
+    private RecyclerView rvHome;
+    private HomeFragmentAdapter adapter;
 
     @Override
     protected View initView() {
         Log.e(TAG, "initView: ");
         View view = View.inflate(mContext, R.layout.fragment_home,null);
+        rvHome = view.findViewById(R.id.recyclerview_home);
         search = view.findViewById(R.id.search);
         scan = view.findViewById(R.id.scan);
 
@@ -77,8 +84,13 @@ public class HomeFragment extends BaseFragment {
 
     private void processData(String json) {
         ResultBeanData resultBeanData = JSON.parseObject(json, ResultBeanData.class);
-        result = resultBeanData.getResult();
+        resultDate = resultBeanData.getResult();
         Log.e(TAG, "解析成功");
+        if (resultDate != null) {
+            adapter = new HomeFragmentAdapter(mContext, resultDate);
+            rvHome.setAdapter(adapter);
+            rvHome.setLayoutManager(new GridLayoutManager(mContext,1));
+        }
     }
 
 }
