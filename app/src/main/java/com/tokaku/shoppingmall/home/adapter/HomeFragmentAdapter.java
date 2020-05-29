@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == BANNER) {
             return new BannerViewHolder(mContext,layoutInflater.inflate(R.layout.home_banner,null),resultDate);
+        } else if (viewType == CHANNEL) {
+            return new ChannelViewHolder(mContext,layoutInflater.inflate(R.layout.home_channel,null),resultDate);
         }
         return null;
     }
@@ -54,6 +57,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
         if (getItemViewType(position) == BANNER){
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
             bannerViewHolder.setData(resultDate.getBanner_info());
+        }else if (getItemViewType(position) == CHANNEL){
+            ChannelViewHolder bannerViewHolder = (ChannelViewHolder) holder;
+            bannerViewHolder.setData(resultDate.getChannel_info());
         }
     }
 
@@ -82,6 +88,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
         return currentType;
     }
 
+    @Override
+    public int getItemCount() {
+        return 1;
+    }
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
@@ -108,8 +118,21 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
     }
 
 
-    @Override
-    public int getItemCount() {
-        return 1;
+    private class ChannelViewHolder extends RecyclerView.ViewHolder {
+        private Context mContext;
+        private GridView gridView;
+        private GridAdapter adapter;
+
+        public ChannelViewHolder(Context mContext, View view, ResultBeanData.ResultBean resultDate) {
+            super(view);
+            this.mContext = mContext;
+            gridView = view.findViewById(R.id.grid);
+        }
+
+        public void setData(List<ResultBeanData.ResultBean.ChannelInfoBean> channel_info) {
+
+            adapter = new GridAdapter(mContext,channel_info);
+            gridView.setAdapter(adapter);
+        }
     }
 }
