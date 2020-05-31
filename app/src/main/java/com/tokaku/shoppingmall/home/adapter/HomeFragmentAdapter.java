@@ -117,7 +117,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         return 4;
     }
 
-    private class BannerViewHolder extends RecyclerView.ViewHolder {
+    private static class BannerViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private Banner banner;
 
@@ -141,10 +141,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class ChannelViewHolder extends RecyclerView.ViewHolder {
+    private static class ChannelViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private GridView gridView;
-        private GridAdapter adapter;
 
         ChannelViewHolder(final Context mContext, View view) {
             super(view);
@@ -161,15 +160,14 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
         void setData(List<ResultBeanData.ResultBean.ChannelInfoBean> channel_info) {
 
-            adapter = new GridAdapter(mContext, channel_info);
+            GridAdapter adapter = new GridAdapter(mContext, channel_info);
             gridView.setAdapter(adapter);
         }
     }
 
-    private class PromotionViewHolder extends RecyclerView.ViewHolder {
+    private static class PromotionViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private ViewPager viewpager;
-        private ViewPagerAdapter adapter;
 
         PromotionViewHolder(Context mContext, View view) {
             super(view);
@@ -178,7 +176,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
 
         void setData(List<ResultBeanData.ResultBean.ActInfoBean> act_info) {
-            adapter = new ViewPagerAdapter(mContext, act_info);
+            ViewPagerAdapter adapter = new ViewPagerAdapter(mContext, act_info);
             viewpager.setPageMargin(20);
             viewpager.setOffscreenPageLimit(3);
             viewpager.setPageTransformer(true
@@ -190,13 +188,11 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
 
 
-    private class SecKillViewHolder extends RecyclerView.ViewHolder {
+    private static class SecKillViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
         private final TextView textView;
         private final TextView textView2;
-        private final ImageView imageView;
         private RecyclerView recyclerView;
-        private SecKillItemAdapter adapter;
         int date;
 
         SecKillViewHolder(Context mContext, View view) {
@@ -204,7 +200,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             this.mContext = mContext;
             textView = view.findViewById(R.id.textView);
             textView2 = view.findViewById(R.id.textView2);
-            imageView = view.findViewById(R.id.imageView);
             recyclerView = view.findViewById(R.id.recyclerview_home_seckill);
         }
         Handler handler = new Handler(){
@@ -224,10 +219,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         };
         void setData(final ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
             date = Integer.parseInt(seckill_info.getEnd_time()) - Integer.parseInt(seckill_info.getStart_time());
-
-
             handler.sendEmptyMessageDelayed(0,1000);
-            adapter = new SecKillItemAdapter(mContext, seckill_info);
+            SecKillItemAdapter adapter = new SecKillItemAdapter(mContext, seckill_info);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         }
