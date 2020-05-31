@@ -5,12 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.R;
@@ -47,9 +50,11 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == BANNER) {
-            return new BannerViewHolder(mContext,layoutInflater.inflate(R.layout.home_banner,null),resultDate);
+            return new BannerViewHolder(mContext,layoutInflater.inflate(R.layout.home_banner,null));
         } else if (viewType == CHANNEL) {
-            return new ChannelViewHolder(mContext,layoutInflater.inflate(R.layout.home_channel,null),resultDate);
+            return new ChannelViewHolder(mContext,layoutInflater.inflate(R.layout.home_channel,null));
+        } else if (viewType == PROMOTION) {
+            return new PromotionViewHolder(mContext,layoutInflater.inflate(R.layout.home_promotion,null));
         }
         return null;
     }
@@ -63,6 +68,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
         }else if (getItemViewType(position) == CHANNEL){
             ChannelViewHolder channelViewHolder = (ChannelViewHolder) holder;
             channelViewHolder.setData(resultDate.getChannel_info());
+        }else if (getItemViewType(position) == PROMOTION){
+            PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
+            promotionViewHolder.setData(resultDate.getAct_info());
         }
     }
 
@@ -93,14 +101,14 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private Banner banner;
 
-        public BannerViewHolder(Context mContext, View view, ResultBeanData.ResultBean resultDate) {
+        public BannerViewHolder(Context mContext, View view) {
             super(view);
             this.mContext = mContext;
             this.banner = view.findViewById(R.id.banner);
@@ -120,22 +128,45 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter{
         }
     }
 
-
     private class ChannelViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private GridView gridView;
         private GridAdapter adapter;
 
-        public ChannelViewHolder(Context mContext, View view, ResultBeanData.ResultBean resultDate) {
+        public ChannelViewHolder(final Context mContext, View view) {
             super(view);
             this.mContext = mContext;
             gridView = view.findViewById(R.id.grid);
+
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext,"position"+position,Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         public void setData(List<ResultBeanData.ResultBean.ChannelInfoBean> channel_info) {
 
             adapter = new GridAdapter(mContext,channel_info);
             gridView.setAdapter(adapter);
+        }
+    }
+
+    private class PromotionViewHolder extends RecyclerView.ViewHolder {
+        private Context mContext;
+        private ViewPager viewpager;
+        private ViewPagerAdapter adapter;
+
+        public PromotionViewHolder(Context mContext, View view) {
+            super(view);
+            this.mContext = mContext;
+            viewpager = view.findViewById(R.id.viewpager);
+        }
+
+        public void setData(List<ResultBeanData.ResultBean.ActInfoBean> act_info) {
+            adapter = new ViewPagerAdapter(mContext,act_info);
+            viewpager.setAdapter(adapter);
         }
     }
 }
