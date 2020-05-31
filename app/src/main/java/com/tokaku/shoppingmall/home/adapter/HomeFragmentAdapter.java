@@ -1,6 +1,8 @@
 package com.tokaku.shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,11 +25,12 @@ import com.tokaku.shoppingmall.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnLoadImageListener;
 import com.zhy.magicviewpager.transformer.AlphaPageTransformer;
-import com.zhy.magicviewpager.transformer.RotateDownPageTransformer;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogRecord;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
@@ -58,8 +63,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             return new ChannelViewHolder(mContext, layoutInflater.inflate(R.layout.home_channel, null));
         } else if (viewType == PROMOTION) {
             return new PromotionViewHolder(mContext, layoutInflater.inflate(R.layout.home_promotion, null));
+        } else if (viewType == SECKILL) {
+            return new SecKillViewHolder(mContext, layoutInflater.inflate(R.layout.home_seckill, null));
         }
-        return new BannerViewHolder(mContext, layoutInflater.inflate(R.layout.home_banner, null));
+        return null;
     }
 
     @Override
@@ -74,6 +81,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         } else if (getItemViewType(position) == PROMOTION) {
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
             promotionViewHolder.setData(resultDate.getAct_info());
+        } else if (getItemViewType(position) == SECKILL) {
+            SecKillViewHolder secKillViewHolder = (SecKillViewHolder) holder;
+            secKillViewHolder.setData(resultDate.getSeckill_info());
         }
     }
 
@@ -104,7 +114,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -175,6 +185,51 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                     , new AlphaPageTransformer(
                             new ScaleInTransformer()));
             viewpager.setAdapter(adapter);
+        }
+    }
+
+
+
+    private class SecKillViewHolder extends RecyclerView.ViewHolder {
+        private final Context mContext;
+        private final TextView textView;
+        private final TextView textView2;
+        private final ImageView imageView;
+        private RecyclerView recyclerView;
+        private SecKillItemAdapter adapter;
+        int date;
+
+        SecKillViewHolder(Context mContext, View view) {
+            super(view);
+            this.mContext = mContext;
+            textView = view.findViewById(R.id.textView);
+            textView2 = view.findViewById(R.id.textView2);
+            imageView = view.findViewById(R.id.imageView);
+            recyclerView = view.findViewById(R.id.recyclerview_home_seckill);
+        }
+        Handler handler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                date-=1000;
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                textView.setText(format.format(date));
+                handler.removeMessages(0);
+                handler.sendEmptyMessageDelayed(0,1000);
+                if (date <= 0) {
+                    handler.removeMessages(0);
+                }
+
+            }
+        };
+        void setData(final ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
+            date = Integer.parseInt(seckill_info.getEnd_time()) - Integer.parseInt(seckill_info.getStart_time());
+
+
+            handler.sendEmptyMessageDelayed(0,1000);
+            adapter = new SecKillItemAdapter(mContext, seckill_info);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         }
     }
 }

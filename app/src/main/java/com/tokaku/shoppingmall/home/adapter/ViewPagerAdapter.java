@@ -44,13 +44,12 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
         Glide.with(mContext).load(URL_IMG + resultDate.get(position).getIcon_url()).into(imageView);
-        Log.e(TAG, "url"+URL_IMG + resultDate.get(position).getIcon_url());
         container.addView(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "position"+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "position" + position, Toast.LENGTH_SHORT).show();
             }
         });
         return imageView;

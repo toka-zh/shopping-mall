@@ -6,4 +6,7 @@
 
     <color name="bg">#FFFFFF</color>
     <color name="themeColor">#3F51B5</color>
+    <color name="darker_gray">#aaa</color>
+    <color name="dark">#000</color>
+    <color name="red">#A50000</color>
 </resources>
