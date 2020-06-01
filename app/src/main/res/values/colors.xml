@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#3F51B5</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="more">#707070</color>
+
     <color name="bg">#FFFFFF</color>
     <color name="themeColor">#3F51B5</color>
     <color name="darker_gray">#aaa</color>

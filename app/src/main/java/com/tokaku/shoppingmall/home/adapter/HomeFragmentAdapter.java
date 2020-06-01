@@ -41,11 +41,12 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
     private static final int SECKILL = 3;
     private static final int RECOMMEND = 4;
     private static final int HOT = 5;
-    private Context mContext;
-    private ResultBeanData.ResultBean resultDate;
-    private final LayoutInflater layoutInflater;
 
     private int currentType = BANNER;
+
+    private Context mContext;
+    private ResultBeanData.ResultBean resultDate;
+    private LayoutInflater layoutInflater;
 
     public HomeFragmentAdapter(FragmentActivity mContext, ResultBeanData.ResultBean resultDate) {
         this.mContext = mContext;
@@ -66,6 +67,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             return new SecKillViewHolder(mContext, layoutInflater.inflate(R.layout.home_seckill, null));
         } else if (viewType == RECOMMEND) {
             return new RecommendViewHolder(mContext, layoutInflater.inflate(R.layout.home_recommend, null));
+        } else if (viewType == HOT) {
+            return new HotViewHolder(mContext, layoutInflater.inflate(R.layout.home_hot, null));
         }
         return null;
     }
@@ -88,6 +91,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         } else if (getItemViewType(position) == RECOMMEND) {
             RecommendViewHolder recommendViewHolder = (RecommendViewHolder) holder;
             recommendViewHolder.setData(resultDate.getRecommend_info());
+        } else if (getItemViewType(position) == HOT) {
+            HotViewHolder hotViewHolder = (HotViewHolder) holder;
+            hotViewHolder.setData(resultDate.getHot_info());
         }
     }
 
@@ -118,7 +124,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 
     private static class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -147,14 +153,14 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
     private static class ChannelViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
-        private GridView gridView;
+        private GridView cn_gr_channels;
 
         ChannelViewHolder(final Context mContext, View view) {
             super(view);
             this.mContext = mContext;
-            gridView = view.findViewById(R.id.grid);
+            cn_gr_channels = view.findViewById(R.id.cn_gr_channels);
 
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            cn_gr_channels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position" + position, Toast.LENGTH_SHORT).show();
@@ -165,7 +171,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         void setData(List<ResultBeanData.ResultBean.ChannelInfoBean> channel_info) {
 
             ChannelGridItemAdapter adapter = new ChannelGridItemAdapter(mContext, channel_info);
-            gridView.setAdapter(adapter);
+            cn_gr_channels.setAdapter(adapter);
         }
     }
 
@@ -190,47 +196,55 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
     }
 
-
-
     private static class SecKillViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
-        private final TextView textView;
-        private final TextView textView2;
-        private RecyclerView recyclerView;
+        private final TextView sk_timer;
+        private final TextView sk_more;
+        private RecyclerView sk_rv_goods;
         int date;
 
-        SecKillViewHolder(Context mContext, View view) {
+        SecKillViewHolder(final Context mContext, View view) {
             super(view);
             this.mContext = mContext;
-            textView = view.findViewById(R.id.textView);
-            textView2 = view.findViewById(R.id.textView2);
-            recyclerView = view.findViewById(R.id.recyclerview_home_seckill);
+            sk_timer = view.findViewById(R.id.sk_timer);
+            sk_more = view.findViewById(R.id.sk_more);
+            sk_rv_goods = view.findViewById(R.id.sk_rv_gods);
         }
-        Handler handler = new Handler(){
+
+        Handler handler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                date-=1000;
+                date -= 1000;
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-                textView.setText(format.format(date));
+                sk_timer.setText(format.format(date));
                 handler.removeMessages(0);
-                handler.sendEmptyMessageDelayed(0,1000);
+                handler.sendEmptyMessageDelayed(0, 1000);
                 if (date <= 0) {
                     handler.removeMessages(0);
                 }
 
             }
         };
+
         void setData(final ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
             date = Integer.parseInt(seckill_info.getEnd_time()) - Integer.parseInt(seckill_info.getStart_time());
-            handler.sendEmptyMessageDelayed(0,1000);
+            handler.sendEmptyMessageDelayed(0, 1000);
             SecKillItemAdapter adapter = new SecKillItemAdapter(mContext, seckill_info);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            sk_rv_goods.setAdapter(adapter);
+            sk_rv_goods.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            adapter.setSeckillItem(new SecKillItemAdapter.OnSeckillItem() {
+                @Override
+                public void onItemClick(int position) {
+                    Toast.makeText(mContext, "秒杀商品" + position, Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
         }
     }
 
-    private class RecommendViewHolder extends RecyclerView.ViewHolder {
+    private static class RecommendViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
         private final TextView rc_tv_more;
         private final GridView rc_gr_gods;
@@ -238,20 +252,39 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         RecommendViewHolder(final Context mContext, View view) {
             super(view);
             this.mContext = mContext;
-            rc_tv_more=view.findViewById(R.id.rc_tv_more);
-            rc_gr_gods=view.findViewById(R.id.rc_gr_gods);
+            rc_tv_more = view.findViewById(R.id.rc_tv_more);
+            rc_gr_gods = view.findViewById(R.id.rc_gr_gods);
 
             rc_tv_more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext,"查看更多",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "查看更多", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
         public void setData(List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
-            RecommendGridItemAdapter adapter = new RecommendGridItemAdapter(mContext,recommend_info);
+            RecommendGridItemAdapter adapter = new RecommendGridItemAdapter(mContext, recommend_info);
             rc_gr_gods.setAdapter(adapter);
+        }
+    }
+
+    private static class HotViewHolder extends RecyclerView.ViewHolder {
+        private Context mContext;
+        private TextView hot_tv_more;
+        private GridView hot_gv_goods;
+
+        public HotViewHolder(Context mContext, View view) {
+            super(view);
+            this.mContext = mContext;
+            hot_tv_more = view.findViewById(R.id.hot_tv_more);
+            hot_gv_goods = view.findViewById(R.id.hot_gv_goods);
+
+        }
+
+        public void setData(List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
+            HotGridItemAdapter adapter = new HotGridItemAdapter(mContext, hot_info);
+            hot_gv_goods.setAdapter(adapter);
         }
     }
 }

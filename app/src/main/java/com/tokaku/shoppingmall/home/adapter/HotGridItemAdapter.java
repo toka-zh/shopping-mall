@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
@@ -15,11 +17,11 @@ import java.util.List;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
-public class ChannelGridItemAdapter extends BaseAdapter {
-    private final List<ResultBeanData.ResultBean.ChannelInfoBean> resultDate;
+public class HotGridItemAdapter extends BaseAdapter {
     private final Context mContext;
+    private final List<ResultBeanData.ResultBean.HotInfoBean> resultDate;
 
-    public ChannelGridItemAdapter(Context mContext, List<ResultBeanData.ResultBean.ChannelInfoBean> resultDate) {
+    public HotGridItemAdapter(Context mContext, List<ResultBeanData.ResultBean.HotInfoBean> resultDate) {
         this.mContext = mContext;
         this.resultDate = resultDate;
     }
@@ -43,22 +45,26 @@ public class ChannelGridItemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.item_home_channel,null);
+            convertView = View.inflate(mContext, R.layout.item_home_hot,null);
             holder = new ViewHolder();
-            holder.imageView = convertView.findViewById(R.id.imageView);
-            holder.textView = convertView.findViewById(R.id.sk_timer);
+            holder.hot_gr_image = convertView.findViewById(R.id.hot_gr_image);
+            holder.hot_gr_name = convertView.findViewById(R.id.hot_gr_name);
+            holder.hot_gr_price = convertView.findViewById(R.id.hot_gr_price);
             convertView.setTag(holder);
         }else {
-             holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
+        ResultBeanData.ResultBean.HotInfoBean hotInfoBean = resultDate.get(position);
+        Glide.with(mContext).load(URL_IMG+hotInfoBean.getFigure()).into(holder.hot_gr_image);
+        holder.hot_gr_name.setText(hotInfoBean.getName());
+        holder.hot_gr_price.setText(hotInfoBean.getCover_price());
 
-        ResultBeanData.ResultBean.ChannelInfoBean channelInfoBean = resultDate.get(position);
-        Glide.with(mContext).load(URL_IMG+channelInfoBean.getImage()).into(holder.imageView);
-        holder.textView.setText(channelInfoBean.getChannel_name());
         return convertView;
     }
+
     private static class ViewHolder{
-        ImageView imageView;
-        TextView textView;
+        private ImageView hot_gr_image;
+        private TextView hot_gr_name;
+        private TextView hot_gr_price;
     }
 }

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/darker_gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,43 +17,36 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_seckill" />
+            android:src="@drawable/ic_hot" />
 
         <TextView
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@string/seckill_name"
+            android:text="@string/hot_name"
             android:textColor="@color/dark"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/sk_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/seckill_time_shape"
-            android:paddingHorizontal="4dp"
-            android:text="@string/seckilltime"
-            android:textColor="@color/bg"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/sk_more"
+            android:id="@+id/hot_tv_more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableEnd="@drawable/ic_more_right"
             android:drawableRight="@drawable/ic_more_right"
             android:gravity="end"
-            android:textColor="@color/more"
             android:text="@string/more"
+            android:textColor="@color/more"
             android:textSize="12sp" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sk_rv_gods"
+    <GridView
+        android:id="@+id/hot_gv_goods"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="900dp"
+        android:numColumns="2" />
+
 </LinearLayout>

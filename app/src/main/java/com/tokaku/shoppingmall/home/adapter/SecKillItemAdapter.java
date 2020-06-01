@@ -56,8 +56,8 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
 
         public SecKillItemViewHolder(View view) {
             super(view);
-            textView = view.findViewById(R.id.textView);
-            textView2 = view.findViewById(R.id.textView2);
+            textView = view.findViewById(R.id.sk_timer);
+            textView2 = view.findViewById(R.id.sk_more);
             imageView = view.findViewById(R.id.imageView);
             linearLayout = view.findViewById(R.id.linearLayout);
 
@@ -82,5 +82,15 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+    }
+
+    public interface OnSeckillItem{
+        void onItemClick(int position);
+    }
+
+    public OnSeckillItem seckillItem;
+
+    public void setSeckillItem(OnSeckillItem seckillItem) {
+        this.seckillItem = seckillItem;
     }
 }
