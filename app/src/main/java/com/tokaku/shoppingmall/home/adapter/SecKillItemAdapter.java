@@ -1,7 +1,6 @@
 package com.tokaku.shoppingmall.home.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
     private final Context mContext;
     private final List<ResultBeanData.ResultBean.SeckillInfoBean.ListBean> list;
 
-    public SecKillItemAdapter(Context mContext, ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
+    SecKillItemAdapter(Context mContext, ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
         this.mContext = mContext;
         this.list = seckill_info.getList();
     }
@@ -33,7 +32,7 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SecKillItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_seckill, null));
+        return new SecKillItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_home_seckill, null));
     }
 
     @Override
@@ -61,6 +60,13 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
             textView2 = view.findViewById(R.id.textView2);
             imageView = view.findViewById(R.id.imageView);
             linearLayout = view.findViewById(R.id.linearLayout);
+
+            view.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext,"秒杀"+getLayoutPosition(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         public void setData(final int position) {

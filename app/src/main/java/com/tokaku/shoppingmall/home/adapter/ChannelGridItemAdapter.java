@@ -17,11 +17,11 @@ import java.util.List;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
-public class GridAdapter extends BaseAdapter {
+public class ChannelGridItemAdapter extends BaseAdapter {
     private final List<ResultBeanData.ResultBean.ChannelInfoBean> resultDate;
     private final Context mContext;
 
-    public GridAdapter(Context mContext, List<ResultBeanData.ResultBean.ChannelInfoBean> resultDate) {
+    public ChannelGridItemAdapter(Context mContext, List<ResultBeanData.ResultBean.ChannelInfoBean> resultDate) {
         this.mContext = mContext;
         this.resultDate = resultDate;
     }
@@ -59,7 +59,7 @@ public class GridAdapter extends BaseAdapter {
         holder.textView.setText(channelInfoBean.getChannel_name());
         return convertView;
     }
-    static class ViewHolder{
+    private static class ViewHolder{
         ImageView imageView;
         TextView textView;
     }

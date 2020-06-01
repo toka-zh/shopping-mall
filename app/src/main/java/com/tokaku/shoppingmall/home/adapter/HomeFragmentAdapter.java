@@ -30,7 +30,6 @@ import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogRecord;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
@@ -65,6 +64,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             return new PromotionViewHolder(mContext, layoutInflater.inflate(R.layout.home_promotion, null));
         } else if (viewType == SECKILL) {
             return new SecKillViewHolder(mContext, layoutInflater.inflate(R.layout.home_seckill, null));
+        } else if (viewType == RECOMMEND) {
+            return new RecommendViewHolder(mContext, layoutInflater.inflate(R.layout.home_recommend, null));
         }
         return null;
     }
@@ -84,6 +85,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         } else if (getItemViewType(position) == SECKILL) {
             SecKillViewHolder secKillViewHolder = (SecKillViewHolder) holder;
             secKillViewHolder.setData(resultDate.getSeckill_info());
+        } else if (getItemViewType(position) == RECOMMEND) {
+            RecommendViewHolder recommendViewHolder = (RecommendViewHolder) holder;
+            recommendViewHolder.setData(resultDate.getRecommend_info());
         }
     }
 
@@ -114,7 +118,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 5;
     }
 
     private static class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -160,7 +164,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
         void setData(List<ResultBeanData.ResultBean.ChannelInfoBean> channel_info) {
 
-            GridAdapter adapter = new GridAdapter(mContext, channel_info);
+            ChannelGridItemAdapter adapter = new ChannelGridItemAdapter(mContext, channel_info);
             gridView.setAdapter(adapter);
         }
     }
@@ -223,6 +227,31 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             SecKillItemAdapter adapter = new SecKillItemAdapter(mContext, seckill_info);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        }
+    }
+
+    private class RecommendViewHolder extends RecyclerView.ViewHolder {
+        private final Context mContext;
+        private final TextView rc_tv_more;
+        private final GridView rc_gr_gods;
+
+        RecommendViewHolder(final Context mContext, View view) {
+            super(view);
+            this.mContext = mContext;
+            rc_tv_more=view.findViewById(R.id.rc_tv_more);
+            rc_gr_gods=view.findViewById(R.id.rc_gr_gods);
+
+            rc_tv_more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext,"查看更多",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        public void setData(List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
+            RecommendGridItemAdapter adapter = new RecommendGridItemAdapter(mContext,recommend_info);
+            rc_gr_gods.setAdapter(adapter);
         }
     }
 }

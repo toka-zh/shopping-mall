@@ -15,30 +15,20 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/home_arrow_left_flash" />
+            android:src="@drawable/home_arrow_left_new" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@string/seckill_name"
+            android:text="@string/recommend_name"
             android:textColor="@color/dark"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/seckill_time_shape"
-            android:paddingHorizontal="4dp"
-            android:text="@string/seckilltime"
-            android:textColor="@color/bg"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/rc_tv_more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,8 +40,10 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_home_seckill"
+    <GridView
+        android:id="@+id/rc_gr_gods"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="320dp"
+        android:numColumns="3" />
+
 </LinearLayout>
