@@ -1,6 +1,7 @@
 package com.tokaku.shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.tokaku.shoppingmall.GoodsBean;
+import com.tokaku.shoppingmall.GoodsInfoActivity;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
@@ -27,9 +30,12 @@ import com.youth.banner.listener.OnLoadImageListener;
 import com.zhy.magicviewpager.transformer.AlphaPageTransformer;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
@@ -47,6 +53,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private ResultBeanData.ResultBean resultDate;
     private LayoutInflater layoutInflater;
+    private GoodsBean goodsBean;
 
     public HomeFragmentAdapter(FragmentActivity mContext, ResultBeanData.ResultBean resultDate) {
         this.mContext = mContext;
@@ -196,7 +203,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private static class SecKillViewHolder extends RecyclerView.ViewHolder {
+    private class SecKillViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
         private final TextView sk_timer;
         private final TextView sk_more;
@@ -211,49 +218,70 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             sk_rv_goods = view.findViewById(R.id.sk_rv_gods);
         }
 
-        Handler handler = new Handler() {
+        //        Handler handler = new Handler() {
+//            @Override
+//            public void handleMessage(@NonNull Message msg) {
+//                super.handleMessage(msg);
+//                date -= 1000;
+//                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+//                sk_timer.setText(format.format(date));
+//                handler.removeMessages(0);
+//                handler.sendEmptyMessageDelayed(0, 1000);
+//                if (date <= 0) {
+//                    handler.removeMessages(0);
+//                }
+//
+//            }
+//        };
+        Handler handler = new Handler(new Handler.Callback() {
             @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
+            public boolean handleMessage(@NotNull Message msg) {
                 date -= 1000;
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
                 sk_timer.setText(format.format(date));
                 handler.removeMessages(0);
                 handler.sendEmptyMessageDelayed(0, 1000);
                 if (date <= 0) {
                     handler.removeMessages(0);
                 }
-
+                return false;
             }
-        };
+        });
+
 
         void setData(final ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
             date = Integer.parseInt(seckill_info.getEnd_time()) - Integer.parseInt(seckill_info.getStart_time());
             handler.sendEmptyMessageDelayed(0, 1000);
+
+            sk_rv_goods.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
             SecKillItemAdapter adapter = new SecKillItemAdapter(mContext, seckill_info);
             sk_rv_goods.setAdapter(adapter);
-            sk_rv_goods.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-            adapter.setSeckillItem(new SecKillItemAdapter.OnSeckillItem() {
-                @Override
-                public void onItemClick(int position) {
-                    Toast.makeText(mContext, "秒杀商品" + position, Toast.LENGTH_SHORT).show();
-                }
 
+            adapter.setOnSeckillRecyclerView(new SecKillItemAdapter.OnSeckillRecyclerView() {
+                @Override
+                public void onClick(int position) {
+                    String cover_price = "￥"+seckill_info.getList().get(position).getCover_price();
+                    String name = seckill_info.getList().get(position).getName();
+                    String figure = seckill_info.getList().get(position).getFigure();
+                    String product_id = seckill_info.getList().get(position).getProduct_id();
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    startToGoodInfo(goodsBean);
+                }
             });
 
         }
     }
 
-    private static class RecommendViewHolder extends RecyclerView.ViewHolder {
+    private class RecommendViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
         private final TextView rc_tv_more;
-        private final GridView rc_gr_gods;
+        private final GridView rc_gv_gods;
 
         RecommendViewHolder(final Context mContext, View view) {
             super(view);
             this.mContext = mContext;
             rc_tv_more = view.findViewById(R.id.rc_tv_more);
-            rc_gr_gods = view.findViewById(R.id.rc_gr_gods);
+            rc_gv_gods = view.findViewById(R.id.rc_gr_gods);
 
             rc_tv_more.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -263,13 +291,24 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             });
         }
 
-        public void setData(List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
+        public void setData(final List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
             RecommendGridItemAdapter adapter = new RecommendGridItemAdapter(mContext, recommend_info);
-            rc_gr_gods.setAdapter(adapter);
+            rc_gv_gods.setAdapter(adapter);
+            rc_gv_gods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String cover_price = "￥"+recommend_info.get(position).getCover_price();
+                    String name = recommend_info.get(position).getName();
+                    String figure = recommend_info.get(position).getFigure();
+                    String product_id = recommend_info.get(position).getProduct_id();
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    startToGoodInfo(goodsBean);
+                }
+            });
         }
     }
 
-    private static class HotViewHolder extends RecyclerView.ViewHolder {
+    private class HotViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private TextView hot_tv_more;
         private GridView hot_gv_goods;
@@ -282,9 +321,26 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
         }
 
-        public void setData(List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
+        public void setData(final List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
             HotGridItemAdapter adapter = new HotGridItemAdapter(mContext, hot_info);
             hot_gv_goods.setAdapter(adapter);
+            hot_gv_goods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String cover_price = "￥"+hot_info.get(position).getCover_price();
+                    String name = hot_info.get(position).getName();
+                    String figure = hot_info.get(position).getFigure();
+                    String product_id = hot_info.get(position).getProduct_id();
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    startToGoodInfo(goodsBean);
+                }
+            });
         }
+    }
+
+    private void startToGoodInfo(GoodsBean goodsBean) {
+        Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+        intent.putExtra("goodsBean", goodsBean);
+        mContext.startActivity(intent);
     }
 }

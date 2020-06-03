@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_to_cart">加入购物车</string>
+    <string name="buy_now">立即购买</string>
+    <string name="ship">发货</string>
+
+</resources>

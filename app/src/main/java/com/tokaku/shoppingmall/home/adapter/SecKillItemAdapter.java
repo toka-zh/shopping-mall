@@ -60,13 +60,6 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
             textView2 = view.findViewById(R.id.sk_more);
             imageView = view.findViewById(R.id.imageView);
             linearLayout = view.findViewById(R.id.linearLayout);
-
-            view.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext,"秒杀"+getLayoutPosition(),Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
         public void setData(final int position) {
@@ -78,19 +71,22 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext,"position"+position,Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(mContext, "position" + position, Toast.LENGTH_SHORT).show();
+                    if (onSeckillRecyclerView != null) {
+                        onSeckillRecyclerView.onClick(position);
+                    }
                 }
             });
         }
     }
 
-    public interface OnSeckillItem{
-        void onItemClick(int position);
+    public interface OnSeckillRecyclerView {
+        void onClick(int position);
     }
 
-    public OnSeckillItem seckillItem;
-
-    public void setSeckillItem(OnSeckillItem seckillItem) {
-        this.seckillItem = seckillItem;
+    public void setOnSeckillRecyclerView(OnSeckillRecyclerView onSeckillRecyclerView) {
+        this.onSeckillRecyclerView = onSeckillRecyclerView;
     }
+
+    private OnSeckillRecyclerView onSeckillRecyclerView;
 }

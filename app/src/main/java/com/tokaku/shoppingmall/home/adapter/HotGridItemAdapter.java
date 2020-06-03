@@ -7,8 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
@@ -57,7 +55,7 @@ public class HotGridItemAdapter extends BaseAdapter {
         ResultBeanData.ResultBean.HotInfoBean hotInfoBean = resultDate.get(position);
         Glide.with(mContext).load(URL_IMG+hotInfoBean.getFigure()).into(holder.hot_gr_image);
         holder.hot_gr_name.setText(hotInfoBean.getName());
-        holder.hot_gr_price.setText(hotInfoBean.getCover_price());
+        holder.hot_gr_price.setText("￥"+hotInfoBean.getCover_price());
 
         return convertView;
     }

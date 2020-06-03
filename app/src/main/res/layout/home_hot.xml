@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:padding="5dp"
     android:background="@color/darker_gray">
 
     <LinearLayout
@@ -17,7 +18,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_hot" />
+            android:src="@drawable/ic_goods_hot" />
 
         <TextView
             android:padding="5dp"
