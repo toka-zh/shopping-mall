@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.tokaku.shoppingmall.cart.CartStorage;
 
 import java.io.Serializable;
 
@@ -31,6 +32,7 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
     private ImageView star;
     private Button add;
     private Button buy;
+    private GoodsBean goodsBean;
 
     /**
      * Find the Views in the layout<br />
@@ -65,13 +67,16 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if ( v == back ) {
-            // Handle clicks for back
+            // 返回
+            finish();
         } else if ( v == more ) {
-            // Handle clicks for more
+            // 更多
         } else if ( v == add ) {
-            // Handle clicks for add
+            // 加入购物车按钮
+            CartStorage.getInstance().addData(goodsBean);
+            Toast.makeText(this,"加入购物车",Toast.LENGTH_SHORT).show();
         } else if ( v == buy ) {
-            // Handle clicks for buy
+            // 立即购买
         }
     }
 
@@ -81,7 +86,7 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
         setContentView(R.layout.activity_goods_info);
         findViews();
         Intent intent = getIntent();
-        GoodsBean goodsBean = (GoodsBean) intent.getSerializableExtra("goodsBean");
+        goodsBean = (GoodsBean) intent.getSerializableExtra("goodsBean");
 
         setData(goodsBean);
     }

@@ -1,5 +1,6 @@
 package com.tokaku.shoppingmall;
 
+
 import java.io.Serializable;
 
 public class GoodsBean implements Serializable {
@@ -7,12 +8,21 @@ public class GoodsBean implements Serializable {
     private String price;
     private String name;
     private String id;
+    private int goods_num = 1;
 
     public GoodsBean(String imageUrl, String price, String name, String id) {
         this.imageUrl = imageUrl;
         this.price = price;
         this.name = name;
         this.id = id;
+    }
+
+    public int getGoods_num() {
+        return goods_num;
+    }
+
+    public void setGoods_num(int goods_num) {
+        this.goods_num = goods_num;
     }
 
     public String getImageUrl() {
@@ -54,6 +64,7 @@ public class GoodsBean implements Serializable {
                 ", price='" + price + '\'' +
                 ", name='" + name + '\'' +
                 ", id='" + id + '\'' +
+                ", goods_num=" + goods_num +
                 '}';
     }
 }

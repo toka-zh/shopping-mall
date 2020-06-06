@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import com.tokaku.shoppingmall.base.BaseFragment;
+import com.tokaku.shoppingmall.cart.CartFragment;
 import com.tokaku.shoppingmall.home.fragment.HomeFragment;
 
 import java.util.ArrayList;
