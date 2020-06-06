@@ -214,7 +214,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             super(view);
             this.mContext = mContext;
             sk_timer = view.findViewById(R.id.sk_timer);
-            sk_more = view.findViewById(R.id.sk_more);
+            sk_more = view.findViewById(R.id.textView);
             sk_rv_goods = view.findViewById(R.id.sk_rv_gods);
         }
 

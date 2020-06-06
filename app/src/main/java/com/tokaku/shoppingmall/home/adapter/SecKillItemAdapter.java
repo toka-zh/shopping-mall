@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,7 +56,7 @@ class SecKillItemAdapter extends RecyclerView.Adapter {
         public SecKillItemViewHolder(View view) {
             super(view);
             textView = view.findViewById(R.id.sk_timer);
-            textView2 = view.findViewById(R.id.sk_more);
+            textView2 = view.findViewById(R.id.textView);
             imageView = view.findViewById(R.id.imageView);
             linearLayout = view.findViewById(R.id.linearLayout);
         }

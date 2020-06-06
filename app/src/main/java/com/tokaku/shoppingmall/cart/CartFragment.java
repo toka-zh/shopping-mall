@@ -2,8 +2,11 @@ package com.tokaku.shoppingmall.cart;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,22 +22,29 @@ public class CartFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private CheckBox selectAll;
     private TextView priceAll;
+    private TextView goodsCount;
+    private TextView manage;
+    private TextView finish;
+    private Button settlement;
+    private Button delete;
+    private RelativeLayout buttonPanel;
+
     List<GoodsBean> goodsBeanList;
 
     private static final String TAG = CartFragment.class.getSimpleName();
 
     @Override
-    public void onResume() {
-        super.onResume();
-        showData();
-    }
-
-    @Override
     protected View initView() {
         View view = View.inflate(mContext, R.layout.fragment_cart, null);
         recyclerView = view.findViewById(R.id.rv_cart);
+        settlement = view.findViewById(R.id.settlement);
+        delete = view.findViewById(R.id.delete);
         selectAll = view.findViewById(R.id.selectAll);
         priceAll = view.findViewById(R.id.priceAll);
+        goodsCount = view.findViewById(R.id.goodsCount);
+        manage = view.findViewById(R.id.manage);
+        finish = view.findViewById(R.id.finish);
+        buttonPanel = view.findViewById(R.id.buttonPanel);
         Log.e(TAG, "购物车ui初始化");
         return view;
     }
@@ -42,13 +52,55 @@ public class CartFragment extends BaseFragment {
     @Override
     protected void initDate() {
         super.initDate();
-        goodsBeanList= CartStorage.getInstance().getAllData();
+        goodsBeanList = CartStorage.getInstance().getAllData();
         showData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initDate();
+    }
+
     private void showData() {
-        CartAdapter adapter = new CartAdapter(mContext, goodsBeanList,selectAll,priceAll);
-        recyclerView.setAdapter(adapter);
+        final CartAdapter adapter = new CartAdapter(mContext, goodsBeanList, selectAll, priceAll, goodsCount);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+
+        manage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manage.setVisibility(View.GONE);
+                finish.setVisibility(View.VISIBLE);
+                delete.setVisibility(View.VISIBLE);
+                buttonPanel.setVisibility(View.GONE);
+            }
+        });
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manage.setVisibility(View.VISIBLE);
+                finish.setVisibility(View.GONE);
+                delete.setVisibility(View.GONE);
+                buttonPanel.setVisibility(View.VISIBLE);
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,"delete",Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < goodsBeanList.size(); i++) {
+                    if (goodsBeanList.get(i).isSelected()){
+                        CartStorage.getInstance().deleteData(goodsBeanList.get(i));
+                    }
+
+                    initDate();
+                }
+            }
+        });
+
+
     }
 }

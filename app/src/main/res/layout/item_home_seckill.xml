@@ -27,7 +27,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/sk_more"
+            android:id="@+id/textView"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:gravity="center"

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg">
+    android:background="@color/bg"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,16 +12,13 @@
         <include
             android:id="@+id/titleBar"
             layout="@layout/title_cart_bar_top" />
-        <include
-            android:id="@+id/titleBar"
-            layout="@layout/title_cart_bar_top2" />
 
     </FrameLayout>
 
     <View
-        android:background="@color/themeColor"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:background="@color/themeColor" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,13 +38,7 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <include
-                android:id="@+id/titleBar"
-                layout="@layout/title_cart_bar_buttom" />
-
-            <include
-                android:id="@+id/titleBar"
-                layout="@layout/title_cart_bar_buttom2" />
+            <include layout="@layout/title_cart_bar_buttom" />
 
         </LinearLayout>
 

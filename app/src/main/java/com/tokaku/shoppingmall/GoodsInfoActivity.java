@@ -81,9 +81,9 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_info);
         findViews();
+
         Intent intent = getIntent();
         goodsBean = (GoodsBean) intent.getSerializableExtra("goodsBean");
-
         setData(goodsBean);
     }
 
@@ -97,11 +97,6 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
         settings.setUseWideViewPort(true);
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }
