@@ -1,5 +1,6 @@
 package com.tokaku.shoppingmall;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -57,28 +58,28 @@ public class MainActivity extends FragmentActivity {
             case R.id.rb_my:
                 position = 3;
                 break;
-            default:
-                position = 0;
-                break;
-
         }
 
         BaseFragment to = fragments.get(position);
-        switchFragment(to);
+        switchFragment(mContext, to);
     }
 
-    private void switchFragment(BaseFragment to) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    private void switchFragment(Fragment from, BaseFragment to) {
         if (mContext != to) {
-            if (mContext != null) {
-                fragmentTransaction.hide(mContext);
-            }
             mContext = to;
-            if (!to.isAdded()) {
-                fragmentTransaction.add(R.id.frame_Fragment, to).commit();
-            }else {
-//                fragmentTransaction.hide(mContext);
-                fragmentTransaction.show(to).commit();
+            if (to != null) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                if (!to.isAdded()) {
+                    if (from != null) {
+                        transaction.hide(from);
+                    }
+                    transaction.add(R.id.frame_Fragment, to).commit();
+                } else {
+                    if (from != null) {
+                        transaction.hide(from);
+                    }
+                    transaction.show(to).commit();
+                }
             }
         }
     }

@@ -1,7 +1,5 @@
 package com.tokaku.shoppingmall;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +14,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.cart.CartStorage;
-
-import java.io.Serializable;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
@@ -43,9 +39,9 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
     private void findViews() {
         back = (ImageButton)findViewById( R.id.back );
         more = (ImageButton)findViewById( R.id.more );
-        image = (ImageView)findViewById( R.id.image );
-        price = (TextView)findViewById( R.id.price );
-        name = (TextView)findViewById( R.id.name );
+        image = (ImageView)findViewById( R.id.item_cart_image);
+        price = (TextView)findViewById( R.id.item_cart_price);
+        name = (TextView)findViewById( R.id.item_cart_name);
         web = (WebView)findViewById( R.id.web );
         service = (ImageView)findViewById( R.id.service );
         star = (ImageView)findViewById( R.id.star );

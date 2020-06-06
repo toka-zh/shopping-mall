@@ -9,12 +9,22 @@ public class GoodsBean implements Serializable {
     private String name;
     private String id;
     private int goods_num = 1;
+    private boolean isSelected = false;
+
 
     public GoodsBean(String imageUrl, String price, String name, String id) {
         this.imageUrl = imageUrl;
         this.price = price;
         this.name = name;
         this.id = id;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public int getGoods_num() {
@@ -65,6 +75,7 @@ public class GoodsBean implements Serializable {
                 ", name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 ", goods_num=" + goods_num +
+                ", isSelected=" + isSelected +
                 '}';
     }
 }
