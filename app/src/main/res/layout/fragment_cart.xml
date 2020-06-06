@@ -5,16 +5,33 @@
     android:orientation="vertical"
     android:background="@color/bg">
 
-    <include
-        android:id="@+id/titleBar"
-        layout="@layout/title_cart_bar_top"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/titleBar"
+            layout="@layout/title_cart_bar_top" />
+        <include
+            android:id="@+id/titleBar"
+            layout="@layout/title_cart_bar_top2" />
+
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <include
-        android:id="@+id/titleBar"
-        layout="@layout/title_cart_bar_buttom"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/titleBar"
+            layout="@layout/title_cart_bar_buttom" />
+        <include
+            android:id="@+id/titleBar"
+            layout="@layout/title_cart_bar_buttom2" />
+    </FrameLayout>
 </LinearLayout>

@@ -45,6 +45,9 @@ public class AddSubView extends LinearLayout implements View.OnClickListener {
                 }
                 break;
         }
+        if (onNumListener!=null){
+            onNumListener.OnNumClick(value);
+        }
 
         setValue(value);
     }
@@ -63,7 +66,7 @@ public class AddSubView extends LinearLayout implements View.OnClickListener {
     }
 
     public interface OnNumListener{
-        public void OnNumClick(int value);
+        void OnNumClick(int value);
     }
 
     private OnNumListener onNumListener;
