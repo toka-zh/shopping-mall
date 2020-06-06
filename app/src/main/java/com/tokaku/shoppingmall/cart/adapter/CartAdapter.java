@@ -1,12 +1,14 @@
 package com.tokaku.shoppingmall.cart.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import com.tokaku.shoppingmall.cart.AddSubView;
 
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
 public class CartAdapter extends RecyclerView.Adapter {
@@ -33,30 +36,33 @@ public class CartAdapter extends RecyclerView.Adapter {
         this.selectAll = selectAll;
         this.priceAll = priceAll;
 
-//        getTotalPrice();
+        getTotalPrice();
     }
 
     private void getTotalPrice() {
         double sum = 0;
-        for (int i = 0; i < goodsBeanList.size(); i++) {
-            GoodsBean goodsBean = goodsBeanList.get(i);
-            if (goodsBean.isSelected()){
-                sum+= (double) goodsBean.getGoods_num() * Double.parseDouble(goodsBean.getPrice());
+        if (goodsBeanList != null && goodsBeanList.size() > 0) {
+            for (int i = 0; i < goodsBeanList.size(); i++) {
+                GoodsBean goodsBean = goodsBeanList.get(i);
+                Log.e(TAG, goodsBean.toString());
+                if (goodsBean.isSelected()) {
+                    sum += goodsBean.getGoods_num() * Double.parseDouble(goodsBean.getPrice());
+                }
             }
+            priceAll.setText("" + sum);
         }
-        sum +=100;
-        priceAll.setText(""+sum);
+
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CartViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cart,null));
+        return new CartViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cart, null));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        CartViewHolder cartViewHolder= (CartViewHolder) holder;
+        CartViewHolder cartViewHolder = (CartViewHolder) holder;
         cartViewHolder.setData(position);
     }
 
@@ -71,6 +77,7 @@ public class CartAdapter extends RecyclerView.Adapter {
         private TextView name;
         private TextView price;
         private AddSubView addSub;
+
         public CartViewHolder(View view) {
             super(view);
             select = view.findViewById(R.id.item_cart_select);
@@ -81,10 +88,31 @@ public class CartAdapter extends RecyclerView.Adapter {
         }
 
         public void setData(int position) {
-            GoodsBean goodsBean = goodsBeanList.get(position);
-            Glide.with(mContext).load(URL_IMG+goodsBean.getImageUrl()).into(image);
+            final GoodsBean goodsBean = goodsBeanList.get(position);
+            Glide.with(mContext).load(URL_IMG + goodsBean.getImageUrl()).into(image);
             name.setText(goodsBean.getName());
             price.setText(goodsBean.getPrice());
+            addSub.setValue(goodsBean.getGoods_num());
+            addSub.setOnNumListener(new AddSubView.OnNumListener() {
+                @Override
+                public void OnNumClick(int value) {
+                    goodsBean.setGoods_num(value);
+                    getTotalPrice();
+                }
+            });
+
+            select.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (select.isChecked()) {
+                        goodsBean.setSelected(true);
+
+                    } else {
+                        goodsBean.setSelected(false);
+                    }
+                    getTotalPrice();
+                }
+            });
         }
     }
 }

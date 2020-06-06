@@ -37,16 +37,16 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        back = (ImageButton)findViewById( R.id.back );
-        more = (ImageButton)findViewById( R.id.more );
-        image = (ImageView)findViewById( R.id.item_cart_image);
-        price = (TextView)findViewById( R.id.item_cart_price);
-        name = (TextView)findViewById( R.id.item_cart_name);
-        web = (WebView)findViewById( R.id.web );
-        service = (ImageView)findViewById( R.id.service );
-        star = (ImageView)findViewById( R.id.star );
-        add = (Button)findViewById( R.id.add );
-        buy = (Button)findViewById( R.id.buy );
+        back = findViewById( R.id.back );
+        more = findViewById( R.id.more );
+        image = findViewById( R.id.item_cart_image);
+        price = findViewById( R.id.item_cart_price);
+        name = findViewById( R.id.item_cart_name);
+        web = findViewById( R.id.web );
+        service = findViewById( R.id.service );
+        star = findViewById( R.id.star );
+        add = findViewById( R.id.add );
+        buy = findViewById( R.id.buy );
 
         back.setOnClickListener( this );
         more.setOnClickListener( this );
@@ -89,7 +89,8 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
 
     private void setData(GoodsBean goodsBean) {
         Glide.with(this).load(URL_IMG + goodsBean.getImageUrl()).into(image);
-        price.setText(goodsBean.getPrice());
+        String p = "￥"+goodsBean.getPrice();
+        price.setText(p);
         name.setText(goodsBean.getName());
         web.loadUrl("https://www.baidu.com");
         WebSettings settings = web.getSettings();

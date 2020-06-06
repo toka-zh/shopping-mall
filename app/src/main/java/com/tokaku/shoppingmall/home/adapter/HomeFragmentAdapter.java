@@ -260,7 +260,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             adapter.setOnSeckillRecyclerView(new SecKillItemAdapter.OnSeckillRecyclerView() {
                 @Override
                 public void onClick(int position) {
-                    String cover_price = "￥"+seckill_info.getList().get(position).getCover_price();
+                    String cover_price = seckill_info.getList().get(position).getCover_price();
                     String name = seckill_info.getList().get(position).getName();
                     String figure = seckill_info.getList().get(position).getFigure();
                     String product_id = seckill_info.getList().get(position).getProduct_id();
@@ -297,7 +297,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             rc_gv_gods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String cover_price = "￥"+recommend_info.get(position).getCover_price();
+                    String cover_price = recommend_info.get(position).getCover_price();
                     String name = recommend_info.get(position).getName();
                     String figure = recommend_info.get(position).getFigure();
                     String product_id = recommend_info.get(position).getProduct_id();
@@ -327,7 +327,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             hot_gv_goods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String cover_price = "￥"+hot_info.get(position).getCover_price();
+                    String cover_price = hot_info.get(position).getCover_price();
                     String name = hot_info.get(position).getName();
                     String figure = hot_info.get(position).getFigure();
                     String product_id = hot_info.get(position).getProduct_id();
