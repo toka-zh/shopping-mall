@@ -1,6 +1,7 @@
 package com.tokaku.shoppingmall.cart.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import com.tokaku.shoppingmall.GoodsBean;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.cart.AddSubView;
 import com.tokaku.shoppingmall.cart.CartStorage;
+import com.tokaku.shoppingmall.cart.Settlement;
 
 import java.util.List;
 
@@ -26,17 +29,15 @@ import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 public class CartAdapter extends RecyclerView.Adapter {
     private final CheckBox selectAll;
     private final TextView priceAll;
-    private final TextView goodsCount;
 
     private final List<GoodsBean> goodsBeanList;
     private Context mContext;
 
-    public CartAdapter(Context mContext, List<GoodsBean> goodsBeanList, CheckBox selectAll, TextView priceAll,TextView goodsCount) {
+    public CartAdapter(Context mContext, List<GoodsBean> goodsBeanList, CheckBox selectAll, TextView priceAll) {
         this.mContext = mContext;
         this.goodsBeanList = goodsBeanList;
         this.selectAll = selectAll;
         this.priceAll = priceAll;
-        this.goodsCount = goodsCount;
 
         getTotalPrice();
 
@@ -50,7 +51,6 @@ public class CartAdapter extends RecyclerView.Adapter {
         if (goodsBeanList != null && goodsBeanList.size() > 0) {
             for (int i = 0; i < goodsBeanList.size(); i++) {
                 GoodsBean goodsBean = goodsBeanList.get(i);
-                Log.e(TAG, goodsBean.toString());
                 if (goodsBean.isSelected()) {
                     sum += goodsBean.getGoods_num() * Double.parseDouble(goodsBean.getPrice());
                 }
@@ -100,25 +100,9 @@ public class CartAdapter extends RecyclerView.Adapter {
             price.setText(goodsBean.getPrice());
             addSub.setValue(goodsBean.getGoods_num());
             select.setChecked(goodsBean.isSelected());
-            setGoodsCount();
             Click(goodsBean,position);
+            isCheckedAll();
 
-
-        }
-
-        private void isCheckedAll() {
-            boolean checked = true;
-            for (GoodsBean bean : goodsBeanList) {
-                if (!bean.isSelected()) {
-                    checked = false;
-                }
-            }
-            selectAll.setChecked(checked);
-        }
-
-        private void setGoodsCount(){
-            String s = "共" + goodsBeanList.size() + "件宝贝";
-            goodsCount.setText(s);
         }
 
         private void Click(final GoodsBean goodsBean, final int position) {
@@ -127,6 +111,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 public void OnNumClick(int value) {
                     goodsBean.setGoods_num(value);
                     getTotalPrice();
+                    CartStorage.getInstance().updateData(goodsBean);
                 }
             });
 
@@ -139,6 +124,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     } else {
                         goodsBean.setSelected(false);
                     }
+                    CartStorage.getInstance().updateData(goodsBean);
                     isCheckedAll();
                     getTotalPrice();
                 }
@@ -150,17 +136,31 @@ public class CartAdapter extends RecyclerView.Adapter {
                     if (selectAll.isChecked()) {
                         for (GoodsBean bean : goodsBeanList) {
                             bean.setSelected(true);
+                            CartStorage.getInstance().updateData(bean);
                         }
 
                     } else {
                         for (GoodsBean bean : goodsBeanList) {
                             bean.setSelected(false);
+                            CartStorage.getInstance().updateData(bean);
                         }
                     }
                     notifyDataSetChanged();
                     getTotalPrice();
                 }
             });
+
+        }
+
+        private void isCheckedAll() {
+            boolean checked = true;
+            for (GoodsBean bean : goodsBeanList) {
+                if (!bean.isSelected()) {
+                    checked = false;
+                    break;
+                }
+            }
+            selectAll.setChecked(checked);
         }
     }
 }

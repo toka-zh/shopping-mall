@@ -1,5 +1,6 @@
 package com.tokaku.shoppingmall.cart;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -52,6 +53,7 @@ public class CartFragment extends BaseFragment {
     @Override
     protected void initDate() {
         super.initDate();
+        selectAll.setChecked(false);
         goodsBeanList = CartStorage.getInstance().getAllData();
         showData();
     }
@@ -63,10 +65,10 @@ public class CartFragment extends BaseFragment {
     }
 
     private void showData() {
-        final CartAdapter adapter = new CartAdapter(mContext, goodsBeanList, selectAll, priceAll, goodsCount);
+        final CartAdapter adapter = new CartAdapter(mContext, goodsBeanList, selectAll, priceAll);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-
+        setGoodsCount();
         manage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,8 +93,9 @@ public class CartFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext,"delete",Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < goodsBeanList.size(); i++) {
-                    if (goodsBeanList.get(i).isSelected()){
+                List<GoodsBean> selectedData = CartStorage.getInstance().getSelectedData();
+                for (int i = 0; i < selectedData.size(); i++) {
+                    if (selectedData.get(i).isSelected()){
                         CartStorage.getInstance().deleteData(goodsBeanList.get(i));
                     }
 
@@ -102,5 +105,23 @@ public class CartFragment extends BaseFragment {
         });
 
 
+        settlement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (goodsBeanList != null) {
+                    Intent intent = new Intent(mContext, Settlement.class);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(mContext,"请先添加商品",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    private void setGoodsCount() {
+        String s = "共" + goodsBeanList.size() + "件宝贝";
+        goodsCount.setText(s);
     }
 }

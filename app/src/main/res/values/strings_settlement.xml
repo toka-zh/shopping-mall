@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm_order">确认订单</string>
+    <string name="total">合计：</string>
+    <string name="submit_order">提交订单</string>
+</resources>

@@ -54,10 +54,28 @@ public class CartStorage {
 
     public List<GoodsBean> getAllData() {
         List<GoodsBean> goodsBeanList = new ArrayList<>();
-        String json = CacheUtils.getString(context,JSON_CART);
+        String json = CacheUtils.getString(context, JSON_CART);
         if (!TextUtils.isEmpty(json)) {
             goodsBeanList = new Gson().fromJson(json, new TypeToken<List<GoodsBean>>() {
             }.getType());
+        }
+        return goodsBeanList;
+    }
+
+    public void deleteAllData(){
+        List<GoodsBean> selectedData = getSelectedData();
+        for (GoodsBean goodsBean : selectedData) {
+            sparseArray.delete(Integer.parseInt(goodsBean.getId()));
+        }
+        commit();
+    }
+
+    public List<GoodsBean> getSelectedData() {
+        List<GoodsBean> goodsBeanList = getAllData();
+        for (int i = goodsBeanList.size() - 1; i >= 0; i--) {
+            if (!goodsBeanList.get(i).isSelected()) {
+                goodsBeanList.remove(i);
+            }
         }
         return goodsBeanList;
     }
@@ -70,7 +88,7 @@ public class CartStorage {
             tempData = goodsBean;
             tempData.setGoods_num(1);
         }
-        sparseArray.put(Integer.parseInt(tempData.getId()),tempData);
+        sparseArray.put(Integer.parseInt(tempData.getId()), tempData);
 
         commit();
     }
@@ -80,8 +98,8 @@ public class CartStorage {
         commit();
     }
 
-    public void updateData(GoodsBean goodsBean){
-        sparseArray.put(Integer.parseInt(goodsBean.getId()),goodsBean);
+    public void updateData(GoodsBean goodsBean) {
+        sparseArray.put(Integer.parseInt(goodsBean.getId()), goodsBean);
         commit();
     }
 
