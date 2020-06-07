@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tokaku.shoppingmall.GoodsBean;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.cart.adapter.OrderAdapter;
+import com.tokaku.shoppingmall.cart.utils.CartStorage;
 
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class Settlement extends Activity {
         subOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CartStorage.getInstance().deleteAllData();
+                //保存订单信息
+
+                CartStorage.getInstance().deleteSelectData();
                 finish();
             }
         });
@@ -67,7 +70,7 @@ public class Settlement extends Activity {
         count.setText(s);
         total.setText(totalPrice);
         rv_goodsOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        OrderAdapter adapter = new OrderAdapter(this, goodsSelectedList);
+        OrderAdapter adapter = new OrderAdapter(this, goodsSelectedList,subOrder);
         rv_goodsOrder.setAdapter(adapter);
     }
 

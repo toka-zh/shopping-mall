@@ -1,10 +1,9 @@
-package com.tokaku.shoppingmall.cart;
+package com.tokaku.shoppingmall.cart.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tokaku.shoppingmall.GoodsBean;
@@ -62,7 +61,7 @@ public class CartStorage {
         return goodsBeanList;
     }
 
-    public void deleteAllData(){
+    public void deleteSelectData(){
         List<GoodsBean> selectedData = getSelectedData();
         for (GoodsBean goodsBean : selectedData) {
             sparseArray.delete(Integer.parseInt(goodsBean.getId()));

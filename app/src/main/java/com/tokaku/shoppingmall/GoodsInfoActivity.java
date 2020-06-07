@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.tokaku.shoppingmall.cart.CartStorage;
+import com.tokaku.shoppingmall.cart.utils.CartStorage;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 

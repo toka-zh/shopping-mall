@@ -1,4 +1,4 @@
-package com.tokaku.shoppingmall.cart;
+package com.tokaku.shoppingmall.cart.fragment;
 
 import android.content.Intent;
 import android.util.Log;
@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tokaku.shoppingmall.GoodsBean;
 import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.base.BaseFragment;
+import com.tokaku.shoppingmall.cart.utils.CartStorage;
+import com.tokaku.shoppingmall.cart.Settlement;
 import com.tokaku.shoppingmall.cart.adapter.CartAdapter;
 
 import java.util.List;

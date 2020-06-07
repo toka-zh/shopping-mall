@@ -182,6 +182,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
     }
 
+
     private static class PromotionViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private ViewPager viewpager;
