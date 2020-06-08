@@ -18,12 +18,12 @@ import java.util.List;
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
 
-public class TagAdapter extends RecyclerView.Adapter {
+public class GoodsListAdapter extends RecyclerView.Adapter {
 
     private final Context context;
     private final List<GoodsBeanData.ResultBean.PageDataBean> goodsData;
 
-    public TagAdapter(Context context, GoodsBeanData.ResultBean resultBean) {
+    public GoodsListAdapter(Context context, GoodsBeanData.ResultBean resultBean) {
         this.context = context;
         this.goodsData = resultBean.getPage_data();
     }
@@ -82,7 +82,7 @@ public class TagAdapter extends RecyclerView.Adapter {
         void onClick(int position);
     }
 
-    private TagAdapter.OnGoodsItemView onGoodsItemView;
+    private GoodsListAdapter.OnGoodsItemView onGoodsItemView;
 
     public void setOnGoodsItemView(OnGoodsItemView onGoodsItemView) {
         this.onGoodsItemView = onGoodsItemView;

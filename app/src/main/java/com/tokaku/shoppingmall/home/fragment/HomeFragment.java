@@ -64,7 +64,6 @@ public class HomeFragment extends BaseFragment {
     protected void initDate() {
         super.initDate();
 
-
         OkHttpUtils
                 .get()
                 .url(HOME)

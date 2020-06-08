@@ -61,29 +61,21 @@ public class StarStorage {
         return goodsBeanList;
     }
 
-    public void deleteSelectData(){
-        List<GoodsBean> selectedData = getSelectedData();
-        for (GoodsBean goodsBean : selectedData) {
-            sparseArray.delete(Integer.parseInt(goodsBean.getId()));
-        }
-        commit();
-    }
-
-    public List<GoodsBean> getSelectedData() {
-        List<GoodsBean> goodsBeanList = getAllData();
-        for (int i = goodsBeanList.size() - 1; i >= 0; i--) {
-            if (!goodsBeanList.get(i).isSelected()) {
-                goodsBeanList.remove(i);
-            }
-        }
-        return goodsBeanList;
-    }
-
     public void addData(GoodsBean goodsBean) {
         GoodsBean tempData = sparseArray.get(Integer.parseInt(goodsBean.getId()));
         if (tempData == null) {
+            tempData = goodsBean;
             sparseArray.put(Integer.parseInt(tempData.getId()), tempData);
             commit();
+        }
+    }
+
+    public boolean haveData(GoodsBean goodsBean) {
+        GoodsBean tempData = sparseArray.get(Integer.parseInt(goodsBean.getId()));
+        if (tempData == null) {
+            return false;
+        }else {
+            return true;
         }
     }
 

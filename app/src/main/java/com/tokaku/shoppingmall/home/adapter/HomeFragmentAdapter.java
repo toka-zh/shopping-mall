@@ -24,7 +24,7 @@ import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.GoodsBean;
 import com.tokaku.shoppingmall.GoodsInfoActivity;
 import com.tokaku.shoppingmall.R;
-import com.tokaku.shoppingmall.TagActivity;
+import com.tokaku.shoppingmall.GoodsListActivity;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnLoadImageListener;
@@ -159,7 +159,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private static class ChannelViewHolder extends RecyclerView.ViewHolder {
+    private  class ChannelViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private GridView cn_gr_channels;
 
@@ -172,9 +172,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position" + position, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mContext, TagActivity.class);
-                    intent.putExtra("position",position);
-                    mContext.startActivity(intent);
+                    startToGoodsList(position, mContext);
                 }
             });
         }
@@ -223,21 +221,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             sk_rv_goods = view.findViewById(R.id.sk_rv_gods);
         }
 
-        //        Handler handler = new Handler() {
-//            @Override
-//            public void handleMessage(@NonNull Message msg) {
-//                super.handleMessage(msg);
-//                date -= 1000;
-//                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-//                sk_timer.setText(format.format(date));
-//                handler.removeMessages(0);
-//                handler.sendEmptyMessageDelayed(0, 1000);
-//                if (date <= 0) {
-//                    handler.removeMessages(0);
-//                }
-//
-//            }
-//        };
         Handler handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NotNull Message msg) {
@@ -269,7 +252,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                     String name = seckill_info.getList().get(position).getName();
                     String figure = seckill_info.getList().get(position).getFigure();
                     String product_id = seckill_info.getList().get(position).getProduct_id();
-                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price, name, product_id);
                     startToGoodInfo(goodsBean);
                 }
             });
@@ -288,12 +271,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             rc_tv_more = view.findViewById(R.id.rc_tv_more);
             rc_gv_gods = view.findViewById(R.id.rc_gr_gods);
 
-            rc_tv_more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "查看更多", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
         public void setData(final List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
@@ -306,10 +283,11 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                     String name = recommend_info.get(position).getName();
                     String figure = recommend_info.get(position).getFigure();
                     String product_id = recommend_info.get(position).getProduct_id();
-                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price, name, product_id);
                     startToGoodInfo(goodsBean);
                 }
             });
+
         }
     }
 
@@ -336,7 +314,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                     String name = hot_info.get(position).getName();
                     String figure = hot_info.get(position).getFigure();
                     String product_id = hot_info.get(position).getProduct_id();
-                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price, name, product_id);
                     startToGoodInfo(goodsBean);
                 }
             });
@@ -346,6 +324,13 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
     private void startToGoodInfo(GoodsBean goodsBean) {
         Intent intent = new Intent(mContext, GoodsInfoActivity.class);
         intent.putExtra("goodsBean", goodsBean);
+        mContext.startActivity(intent);
+    }
+
+    private void startToGoodsList(int position, Context mContext) {
+        Intent intent = new Intent(mContext, GoodsListActivity.class);
+        intent.putExtra("position", position);
+        intent.putExtra("title",resultDate.getChannel_info().get(position).getChannel_name());
         mContext.startActivity(intent);
     }
 }

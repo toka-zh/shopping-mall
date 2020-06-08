@@ -7,6 +7,9 @@ public class urlText {
 
     public static final String HOME = BASE_URL_JSON+"HOME_URL.json";
 
+    public static final String NEW_POST_URL = BASE_URL_JSON + "NEW_POST_URL.json";
+    public static final String HOT_POST_URL = BASE_URL_JSON + "HOT_POST_URL.json";
+
     //服饰
     public static final String CLOSE_STORE = BASE_URL_JSON + "CLOSE_STORE.json";
     //游戏

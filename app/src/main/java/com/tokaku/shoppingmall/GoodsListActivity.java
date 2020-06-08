@@ -25,11 +25,13 @@ import static com.tokaku.shoppingmall.utils.urlText.COSPLAY_STORE;
 import static com.tokaku.shoppingmall.utils.urlText.FOOD_STORE;
 import static com.tokaku.shoppingmall.utils.urlText.GAME_STORE;
 import static com.tokaku.shoppingmall.utils.urlText.GUFENG_STORE;
+import static com.tokaku.shoppingmall.utils.urlText.HOT_POST_URL;
+import static com.tokaku.shoppingmall.utils.urlText.NEW_POST_URL;
 import static com.tokaku.shoppingmall.utils.urlText.SHOUSHI_STORE;
 import static com.tokaku.shoppingmall.utils.urlText.STICK_STORE;
 import static com.tokaku.shoppingmall.utils.urlText.WENJU_STORE;
 
-public class TagActivity extends Activity {
+public class GoodsListActivity extends Activity {
 
     private static final int CLOTH = 0;
     private static final int GAME = 1;
@@ -40,7 +42,7 @@ public class TagActivity extends Activity {
     private static final int STATIONERY = 6;
     private static final int SNACKS = 7;
     private static final int JEWELRY = 8;
-    private static final int MORE = 19;
+    private static final int MORE = 9;
 
     private RecyclerView rv_tagGood;
     private TextView tag_title;
@@ -50,6 +52,7 @@ public class TagActivity extends Activity {
     private GoodsBeanData.ResultBean resultDate;
 
     private String url;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +61,21 @@ public class TagActivity extends Activity {
 
         Intent intent = getIntent();
         position = (int) intent.getSerializableExtra("position");
-
+        title = (String) intent.getSerializableExtra("title");
         findAllView();
+        setView();
         initDate();
         onClick();
+    }
+
+    private void findAllView() {
+        rv_tagGood = findViewById(R.id.rv_tagGood);
+        tag_title = findViewById(R.id.tag_title);
+        back = findViewById(R.id.back);
+    }
+
+    private void setView() {
+        tag_title.setText(title);
     }
 
     private void onClick() {
@@ -76,18 +90,11 @@ public class TagActivity extends Activity {
     }
 
 
-    private void findAllView() {
-        rv_tagGood = findViewById(R.id.rv_tagGood);
-        tag_title = findViewById(R.id.tag_title);
-        back = findViewById(R.id.back);
-    }
-
     /**
      * 使用OkHttps获取页面json
      */
     protected void initDate() {
         if (position < 9 && position >= 0) {
-
             switch (position) {
                 case CLOTH:
                     url = CLOSE_STORE;
@@ -134,13 +141,14 @@ public class TagActivity extends Activity {
                             processData(response);
                         }
                     });
-        }else {
-            Toast.makeText(this,"更多分类等待加入",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "更多分类等待加入", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
     /**
-     *解析json,并且创建适配器
+     * 解析json,并且创建适配器
      */
     private void processData(String json) {
         GoodsBeanData resultBeanData = JSON.parseObject(json, GoodsBeanData.class);
@@ -149,18 +157,18 @@ public class TagActivity extends Activity {
             Log.e(TAG, "解析成功");
             Log.e(TAG, "绑定适配器");
             //绑定适配器
-            TagAdapter adapter = new TagAdapter(this, resultDate);
+            GoodsListAdapter adapter = new GoodsListAdapter(this, resultDate);
             rv_tagGood.setAdapter(adapter);
-            rv_tagGood.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+            rv_tagGood.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-            adapter.setOnGoodsItemView(new TagAdapter.OnGoodsItemView() {
+            adapter.setOnGoodsItemView(new GoodsListAdapter.OnGoodsItemView() {
                 @Override
                 public void onClick(int position) {
                     String cover_price = resultDate.getPage_data().get(position).getCover_price();
                     String name = resultDate.getPage_data().get(position).getName();
                     String figure = resultDate.getPage_data().get(position).getFigure();
                     String product_id = resultDate.getPage_data().get(position).getProduct_id();
-                    GoodsBean goodsBean = new GoodsBean(figure, cover_price,name, product_id);
+                    GoodsBean goodsBean = new GoodsBean(figure, cover_price, name, product_id);
                     startToGoodInfo(goodsBean);
 
                 }

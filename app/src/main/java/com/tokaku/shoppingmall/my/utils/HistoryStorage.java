@@ -1,4 +1,4 @@
-package com.tokaku.shoppingmall.cart.utils;
+package com.tokaku.shoppingmall.my.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -13,21 +13,21 @@ import com.tokaku.shoppingmall.utils.CacheUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartStorage {
-    private static final String JSON_CART = "json_cart";
-    private static CartStorage instance;
+public class HistoryStorage {
+    private static final String JSON_HISTORY = "json_history";
+    private static HistoryStorage instance;
     private Context context;
     SparseArray<GoodsBean> sparseArray;
 
-    private CartStorage(Context context) {
+    private HistoryStorage(Context context) {
         this.context = context;
         sparseArray = new SparseArray<>(100);
         listToSparseArray();
     }
 
-    public static CartStorage getInstance() {
+    public static HistoryStorage getInstance() {
         if (instance == null) {
-            instance = new CartStorage(MyApplication.getContext());
+            instance = new HistoryStorage(MyApplication.getContext());
         }
         return instance;
     }
@@ -53,7 +53,7 @@ public class CartStorage {
 
     public List<GoodsBean> getAllData() {
         List<GoodsBean> goodsBeanList = new ArrayList<>();
-        String json = CacheUtils.getString(context, JSON_CART);
+        String json = CacheUtils.getHistory(context, JSON_HISTORY);
         if (!TextUtils.isEmpty(json)) {
             goodsBeanList = new Gson().fromJson(json, new TypeToken<List<GoodsBean>>() {
             }.getType());
@@ -70,16 +70,10 @@ public class CartStorage {
     }
 
     public List<GoodsBean> getSelectedData() {
-//        List<GoodsBean> goodsBeanList = getAllData();
-//        for (int i = goodsBeanList.size() - 1; i >= 0; i--) {
-//            if (!goodsBeanList.get(i).isSelected()) {
-//                goodsBeanList.remove(i);
-//            }
-//        }
-        List<GoodsBean> goodsBeanList = new ArrayList<>();
-        for (GoodsBean goodsBean : getAllData()) {
-            if (goodsBean.isSelected()) {
-                goodsBeanList.add(goodsBean);
+        List<GoodsBean> goodsBeanList = getAllData();
+        for (int i = goodsBeanList.size() - 1; i >= 0; i--) {
+            if (!goodsBeanList.get(i).isSelected()) {
+                goodsBeanList.remove(i);
             }
         }
         return goodsBeanList;
@@ -87,15 +81,11 @@ public class CartStorage {
 
     public void addData(GoodsBean goodsBean) {
         GoodsBean tempData = sparseArray.get(Integer.parseInt(goodsBean.getId()));
-        if (tempData != null) {
-            tempData.setGoods_num(tempData.getGoods_num() + 1);
-        } else {
+        if (tempData == null) {
             tempData = goodsBean;
-            tempData.setGoods_num(1);
+            sparseArray.put(Integer.parseInt(tempData.getId()), tempData);
+            commit();
         }
-        sparseArray.put(Integer.parseInt(tempData.getId()), tempData);
-
-        commit();
     }
 
     public void deleteData(GoodsBean goodsBean) {
@@ -111,7 +101,7 @@ public class CartStorage {
     private void commit() {
         List<GoodsBean> list = sparseToArraytolist();
         String json = new Gson().toJson(list);
-        CacheUtils.saveString(context, JSON_CART, json);
+        CacheUtils.saveHistory(context, JSON_HISTORY, json);
     }
 
 }

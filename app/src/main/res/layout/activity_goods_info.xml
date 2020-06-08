@@ -66,7 +66,7 @@
                             android:id="@+id/item_cart_image"
                             android:layout_width="match_parent"
                             android:layout_height="400dp"
-                            android:src="@drawable/ic_launcher_background" />
+                            android:src="@color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -166,12 +166,12 @@
                 android:layout_margin="8dp"
                 android:src="@drawable/ic_service" />
 
-            <ImageView
+            <CheckBox
                 android:id="@+id/star"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_favor" />
+                android:button="@drawable/ic_star_selector" />
 
             <Button
                 android:id="@+id/add"

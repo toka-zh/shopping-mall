@@ -4,44 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darker_gray"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/ic_settings" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/headimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@drawable/ic_welcome"
+        android:paddingBottom="25dp"/>
 
-    <TextView
-        android:id="@+id/myorder"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_my"
+        android:background="@color/bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="我的订单" />
-
-    <TextView
-        android:id="@+id/mystar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="收藏夹" />
-
-    <TextView
-        android:id="@+id/myhistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="浏览历史" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

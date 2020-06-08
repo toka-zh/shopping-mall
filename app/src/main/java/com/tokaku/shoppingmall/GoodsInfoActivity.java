@@ -7,6 +7,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.cart.Settlement;
 import com.tokaku.shoppingmall.cart.utils.CartStorage;
+import com.tokaku.shoppingmall.my.utils.HistoryStorage;
 import com.tokaku.shoppingmall.my.utils.StarStorage;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
@@ -27,7 +29,7 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
     private TextView name;
     private WebView web;
     private ImageView service;
-    private ImageView star;
+    private CheckBox star;
     private Button add;
     private Button buy;
     private GoodsBean goodsBean;
@@ -54,6 +56,8 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
         more.setOnClickListener( this );
         add.setOnClickListener( this );
         buy.setOnClickListener( this );
+        star.setOnClickListener( this );
+        service.setOnClickListener( this );
     }
 
     /**
@@ -80,8 +84,18 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
             intent.putExtra("oneGood",goodsBean);
             startActivity(intent);
         } else if (v == star) {
-            StarStorage.getInstance().addData(goodsBean);
-            Toast.makeText(this,"该商品已加入收藏",Toast.LENGTH_SHORT).show();
+            if (goodsBean.isStared()){
+                Toast.makeText(this,"该商品已取消收藏",Toast.LENGTH_SHORT).show();
+                goodsBean.setStared(false);
+                StarStorage.getInstance().deleteData(goodsBean);
+            }else {
+                Toast.makeText(this,"该商品已加入收藏",Toast.LENGTH_SHORT).show();
+                goodsBean.setStared(true);
+                StarStorage.getInstance().addData(goodsBean);
+            }
+            star.setChecked(goodsBean.isStared());
+        } else if (v == service) {
+            Toast.makeText(this,"转到客服",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -93,14 +107,17 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
 
         Intent intent = getIntent();
         goodsBean = (GoodsBean) intent.getSerializableExtra("goodsBean");
+        goodsBean.setStared(StarStorage.getInstance().haveData(goodsBean));
+        HistoryStorage.getInstance().addData(goodsBean);
         setData(goodsBean);
     }
 
     private void setData(GoodsBean goodsBean) {
         Glide.with(this).load(URL_IMG + goodsBean.getImageUrl()).into(image);
-        String p = "￥"+goodsBean.getPrice();
+        String p = goodsBean.getPrice();
         price.setText(p);
         name.setText(goodsBean.getName());
+        star.setChecked(StarStorage.getInstance().haveData(goodsBean));
         web.loadUrl("https://www.baidu.com");
         WebSettings settings = web.getSettings();
         settings.setUseWideViewPort(true);
