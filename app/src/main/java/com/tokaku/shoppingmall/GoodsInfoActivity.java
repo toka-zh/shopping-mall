@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.tokaku.shoppingmall.cart.Settlement;
 import com.tokaku.shoppingmall.cart.utils.CartStorage;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
@@ -73,6 +74,9 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
             Toast.makeText(this,"加入购物车",Toast.LENGTH_SHORT).show();
         } else if ( v == buy ) {
             // 立即购买
+            Intent intent = new Intent(this, Settlement.class);
+            intent.putExtra("oneGood",goodsBean);
+            startActivity(intent);
         }
     }
 

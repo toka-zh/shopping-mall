@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.GoodsBean;
 import com.tokaku.shoppingmall.R;
-import com.tokaku.shoppingmall.my.bean.OrderData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +40,7 @@ public class OrderAdapter extends RecyclerView.Adapter {
                 for (GoodsBean goodsBean : beanList) {
                     myGoods.put(goodsBean.getId(),goodsBean.getGoods_num());
                 }
+
                 //这里获取用户id,用户的真实姓名，地址，电话号码
                 //使用静态工具类，根据日期和用户id生成订单码
 //                OrderData orderData = new OrderData(orderId, userId, name, phone, address, HashMap < String, Integer > goods);

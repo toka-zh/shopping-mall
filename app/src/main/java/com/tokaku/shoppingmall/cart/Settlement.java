@@ -2,6 +2,7 @@ package com.tokaku.shoppingmall.cart;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import com.tokaku.shoppingmall.R;
 import com.tokaku.shoppingmall.cart.adapter.OrderAdapter;
 import com.tokaku.shoppingmall.cart.utils.CartStorage;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Settlement extends Activity {
@@ -27,13 +30,21 @@ public class Settlement extends Activity {
 
     private String totalPrice;
     private int goodsCount;
+    GoodsBean oneGood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settlement);
 
-        goodsSelectedList = CartStorage.getInstance().getSelectedData();
+        Intent intent = getIntent();
+        oneGood = (GoodsBean) intent.getSerializableExtra("oneGood");
+        if (oneGood!=null){
+            goodsSelectedList = new ArrayList<>();
+            goodsSelectedList.add(oneGood);
+        }else {
+            goodsSelectedList = CartStorage.getInstance().getSelectedData();
+        }
 
         getTotal();
         findAllView();
@@ -51,7 +62,12 @@ public class Settlement extends Activity {
             public void onClick(View v) {
                 //保存订单信息
 
-                CartStorage.getInstance().deleteSelectData();
+                //从购物车中删除已购买
+                if (oneGood==null){
+                    CartStorage.getInstance().deleteSelectData();
+                }else {
+                    CartStorage.getInstance().deleteData(oneGood);
+                }
                 finish();
             }
         });

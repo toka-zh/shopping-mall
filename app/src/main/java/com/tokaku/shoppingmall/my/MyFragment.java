@@ -17,7 +17,6 @@ public class MyFragment extends BaseFragment {
     private Button setting;
 
 
-    private static final String TAG = MyFragment.class.getSimpleName();
 
     @Override
     protected View initView() {
