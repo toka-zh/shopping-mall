@@ -20,6 +20,8 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
 
+import static com.tokaku.shoppingmall.utils.urlText.HOME;
+
 public class HomeFragment extends BaseFragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -62,10 +64,10 @@ public class HomeFragment extends BaseFragment {
     protected void initDate() {
         super.initDate();
 
-        String url = "http://10.0.2.2:8080/atguigu/json/HOME_URL.json";
+
         OkHttpUtils
                 .get()
-                .url(url)
+                .url(HOME)
                 .build()
                 .execute(new StringCallback()
                 {
@@ -87,9 +89,9 @@ public class HomeFragment extends BaseFragment {
         ResultBeanData resultBeanData = JSON.parseObject(json, ResultBeanData.class);
         resultDate = resultBeanData.getResult();
         if (resultDate != null) {
-            Log.e(TAG, "解析成功");
+            Log.e(TAG, "Home解析成功");
             adapter = new HomeFragmentAdapter(mContext, resultDate);
-            Log.e(TAG, "绑定适配器");
+//            Log.e(TAG, "绑定适配器");
             rvHome.setAdapter(adapter);
             rvHome.setLayoutManager(new GridLayoutManager(mContext,1));
         }

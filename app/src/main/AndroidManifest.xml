@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
+        <activity android:name=".TagActivity"></activity>
         <activity android:name=".cart.Settlement" />
         <activity android:name=".GoodsInfoActivity" />
         <activity android:name=".WelcomeActivity">

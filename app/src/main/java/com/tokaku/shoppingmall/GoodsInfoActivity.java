@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.cart.Settlement;
 import com.tokaku.shoppingmall.cart.utils.CartStorage;
+import com.tokaku.shoppingmall.my.utils.StarStorage;
 
 import static com.tokaku.shoppingmall.utils.urlText.URL_IMG;
 
@@ -68,6 +69,7 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
             finish();
         } else if ( v == more ) {
             // 更多
+            Toast.makeText(this,"更多功能敬请期待！",Toast.LENGTH_SHORT).show();
         } else if ( v == add ) {
             // 加入购物车按钮
             CartStorage.getInstance().addData(goodsBean);
@@ -77,6 +79,9 @@ public class GoodsInfoActivity extends Activity implements View.OnClickListener 
             Intent intent = new Intent(this, Settlement.class);
             intent.putExtra("oneGood",goodsBean);
             startActivity(intent);
+        } else if (v == star) {
+            StarStorage.getInstance().addData(goodsBean);
+            Toast.makeText(this,"该商品已加入收藏",Toast.LENGTH_SHORT).show();
         }
     }
 

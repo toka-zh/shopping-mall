@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.tokaku.shoppingmall.GoodsBean;
 import com.tokaku.shoppingmall.GoodsInfoActivity;
 import com.tokaku.shoppingmall.R;
+import com.tokaku.shoppingmall.TagActivity;
 import com.tokaku.shoppingmall.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnLoadImageListener;
@@ -171,6 +172,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position" + position, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, TagActivity.class);
+                    intent.putExtra("position",position);
+                    mContext.startActivity(intent);
                 }
             });
         }
